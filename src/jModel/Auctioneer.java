@@ -5,7 +5,7 @@ package jModel;
 
 //another change
 /**
- * @author Chris
+ * @author Chris West
  *
  */
 public class Auctioneer {
