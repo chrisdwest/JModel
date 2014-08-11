@@ -24,6 +24,7 @@ public class Consumer {
 	private ArrayList<Integer> goodsAllocated; //arraylist holds allocated good details (by good ID number)
 	double totalEndowment; //holds total endowment of the consumer	 
 	double maxUtility; //holds maximum utility of the consumer
+	private ArrayList<Integer> shoppingBasket = new ArrayList<Integer>(); //holds desired good details (good type numbers) to maximise utility
 
 	public Consumer(int consumerIDNumber, int[] preference, ArrayList<Integer> goodsAllocated){ //initialisation stuff
 		this.consumerIDNumber = consumerIDNumber; 
@@ -63,7 +64,7 @@ public class Consumer {
 			
 		}
 		
-		//System.out.println(total_endowment);
+		System.out.println(totalEndowment);
 		return totalEndowment;
 	}
 	
@@ -71,21 +72,41 @@ public class Consumer {
 		
 		double endowment = 0;
 		
-		
+		double goodPrice = 0;
 		
 		double theoreticalMax = 0; 
 		endowment = endowment(goods, goodsAllocated); //calls endowment function and sets 'endowment' to returned double
+		double endowment_remainder = endowment;
 		
-		for (int i = 0; i<=JModelBuilder.goodTypes; i++){ //for all good types
-			//current doesn't do anything
+		for (int i = 0; i<preference.length; i++){ //in order of preference
+			goodPrice = JModelBuilder.getGoodTypePrice(preference[i]);
+			System.out.println(preference[i]);
+			System.out.println(goodPrice);
+			
+			//if (goodPrice<=endowment_remainder){  //THIS IS CURRENTLY NOT WORKING <- NEED TO ASSIGN CODE BY TYPE NOT ID
+			//	System.out.println("Hooray - gimme gimme");
+			//	endowment_remainder = endowment_remainder - goodPrice;
+			//	System.out.println(endowment_remainder);				
+			//	
+			//	shoppingBasket.add(JModelBuilder.goods.get(preference[i]).getID());  //NOTE: Could add CHECK here to make sure item on shopping list is 'available' in 'goods'?
+			//					
+			//	i--;
+			//}
+			
+			System.out.println(shoppingBasket);
+			// check how many goods of preference can afford by comparing price against endowment
+			// add this many things to the 'shopping basket'
+			// go to the next preferred good
+			
+			
 		}
 		
 		
-		System.out.println(endowment);  //think these 5 lines were just for error checking??
-		int firstPref = preference[0];
-		System.out.println(firstPref);
-		double priceOfFirstPref = JModelBuilder.goodTypePrice.get(firstPref);
-		System.out.println(priceOfFirstPref);
+		//System.out.println(endowment);  //think these 5 lines were just for error checking??
+		//int firstPref = preference[0];
+		//System.out.println(firstPref);
+		//double priceOfFirstPref = JModelBuilder.goodTypePrice.get(firstPref);
+		//System.out.println(priceOfFirstPref);
 		
 		return maxUtility;
 	}

@@ -66,8 +66,9 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			context.add(a); //adds this good to the 'context'
 			goods.add(a); //adds this good to the arraylist 'goods'
 			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect)); //adds the goodID and the price to the 'goodLookUp' hashmap
-			//System.out.println(i);
-			//System.out.println(goodTypePrice.get(goodTypeSelect));
+			System.out.println(i);
+			System.out.println(goodTypeSelect);
+			System.out.println(goodTypePrice.get(goodTypeSelect));
 		}
 		
 		
@@ -77,7 +78,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		int maxGoods = 1; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good.
 		int minGoods = 1;
 		
-		for (int i=0; i < total_consumers; i++){
+		for (int i=0; i < total_consumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
 			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform()); //creates a random (shuffled) list of 'goodtypes'
 			int[] pref = new int[goodTypes]; //instantiates an array to hold the list of preferences for good types for a consumer
 			for (int j = 0; j<goodTypes; j++){ //for all 'goodtypes'
@@ -125,6 +126,10 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	public static int getGoodAmount() {
 		return goodAmount;
 	}
+	
+	public static double getGoodTypePrice(int goodTypeSelect){
+		return goodTypePrice.get(goodTypeSelect);
+			}
 			
 }
 
