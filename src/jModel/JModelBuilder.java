@@ -26,46 +26,46 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	 * @see repast.simphony.dataLoader.ContextBuilder#build(repast.simphony.context.Context)
 	 */
 	
-	public static int goodAmount = 10;
-	public static int goodTypes = 10;
-	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();
-	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>();
-	public static ArrayList<Good> goods = new ArrayList<Good>();
-	public static ArrayList<Consumer> consumers = new ArrayList<Consumer>();
+	public static int goodAmount = 10; //on set-up there are 10 goods in total?
+	public static int goodTypes = 10;  //on set-up there are 10 types of goods in total
+	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();  //declares a hashmap to allow the *** of good to be looked up?
+	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>(); //declares a hashmap to allow the price of a good to be looked up?
+	public static ArrayList<Good> goods = new ArrayList<Good>(); //an arraylist storing 'Good' objects
+	public static ArrayList<Consumer> consumers = new ArrayList<Consumer>(); //an arraylist storing 'Consumer' objects
 	
 	@Override
 	public Context build(Context<Object> context) {
-		context.setId("jNEModel");
+		context.setId("jModel");
 		
-		context.add(new Controller());
-		
-		
-		ArrayList<Integer> goodTypeHolder = new ArrayList<Integer>();
+		context.add(new Controller());  //adds a new 'Controller' object to the context?
 		
 		
-		int total_consumers = 10;
+		ArrayList<Integer> goodTypeHolder = new ArrayList<Integer>(); //instantiates arraylist 'goodTypeHolder' of type int
+		
+		
+		int total_consumers = 1;
 				
 		
 		
 		
-		for (int i=0; i < goodTypes; i++){
+		for (int i=0; i < goodTypes; i++){  //this for loop assigns id numbers (between 0 and goodTypes-1) and prices to goods.
 			int goodType = i;
-			goodTypeHolder.add(i);
-			double price = RandomHelper.nextDoubleFromTo(0.0, 10.0);
-			goodTypePrice.put(goodType, price);
+			goodTypeHolder.add(i); //adds good number to goodTypeHolder arraylist
+			double price = RandomHelper.nextDoubleFromTo(0.0, 10.0); //generates random price (double) between 0 and 10
+			goodTypePrice.put(goodType, price); //adds this price within the goodTypePrice hashmap
 			
 		}
 							
-		ArrayList<Integer> goodsLeft = new ArrayList<Integer>();
+		ArrayList<Integer> goodsLeft = new ArrayList<Integer>(); //instantiates arraylist 'goodsLeft' 
 		
-		for (int i=0; i < goodAmount; i++){ 
+		for (int i=0; i < goodAmount; i++){  //for all goods, this sets a price, type and ID number.
 			int goodID = i;
-			goodsLeft.add(i);
-			int goodTypeSelect = RandomHelper.nextIntFromTo(0,goodTypes-1);
-			Good a = new Good(goodTypePrice.get(goodTypeSelect), goodTypeSelect, goodID);
-			context.add(a);
-			goods.add(a);
-			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect));
+			goodsLeft.add(i);  //adds value of i to the 'goodsLeft' arraylist (which is used later)
+			int goodTypeSelect = RandomHelper.nextIntFromTo(0,goodTypes-1); //selects a good from id numbers 0 to goodTypes-1
+			Good a = new Good(goodTypePrice.get(goodTypeSelect), goodTypeSelect, goodID); //instantiates a new Good, with a price (based on the type), a type (assigned randomly from previous line), and a unique ID
+			context.add(a); //adds this good to the 'context'
+			goods.add(a); //adds this good to the arraylist 'goods'
+			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect)); //adds the goodID and the price to the 'goodLookUp' hashmap
 			//System.out.println(i);
 			//System.out.println(goodTypePrice.get(goodTypeSelect));
 		}
@@ -78,31 +78,31 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		int minGoods = 1;
 		
 		for (int i=0; i < total_consumers; i++){
-			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform());
-			int[] pref = new int[goodTypes];
-			for (int j = 0; j<goodTypes; j++){
-				pref[j] = goodTypeHolder.get(j); 
+			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform()); //creates a random (shuffled) list of 'goodtypes'
+			int[] pref = new int[goodTypes]; //instantiates an array to hold the list of preferences for good types for a consumer
+			for (int j = 0; j<goodTypes; j++){ //for all 'goodtypes'
+				pref[j] = goodTypeHolder.get(j);  //sets the random list of goodtypes to the preference list
 			}
 			
-			int goodsToAllocate = RandomHelper.nextIntFromTo(minGoods,maxGoods);
+			int goodsToAllocate = RandomHelper.nextIntFromTo(minGoods,maxGoods); //sets the number of goods to allocate to each consumer
 			
-			ArrayList<Integer> goodsAllocated = new ArrayList<Integer>();
+			ArrayList<Integer> goodsAllocated = new ArrayList<Integer>(); //instantiates new arraylist for holding allocated goods
 			
 			for (int j = 0; j<goodsToAllocate; j++){
 								
-				int rand = RandomHelper.nextIntFromTo(0,goodsLeft.size()-1);
+				int rand = RandomHelper.nextIntFromTo(0,goodsLeft.size()-1); //creates random number between 0 and the number of goodsLeft-1
 				
-				goodsAllocated.add(goodsLeft.get(rand));
+				goodsAllocated.add(goodsLeft.get(rand)); //adds a random good ID number to the goodsAllocated arraylist
 				
-				goodsLeft.remove(rand);
+				goodsLeft.remove(rand); //removes this good from the 'Goodsleft' list
 			}
 			//System.out.println(goodsAllocated);
 			//System.out.println(goodTypeHolder);
 			//System.out.println(goodsLeft);
 			
-			Consumer a = new Consumer(i, pref, goodsAllocated);
-			context.add(a);
-			consumers.add(a);
+			Consumer a = new Consumer(i, pref, goodsAllocated); //instantiates a new consumer with an id number (i), the preference list and a list of allocated goods)
+			context.add(a); //adds this consumer to the context
+			consumers.add(a);  //adds this consumer to the 'consumers' arraylist
 			//System.out.println(context.getAgentTypes());
 		}
 			
