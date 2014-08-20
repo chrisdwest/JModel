@@ -9,6 +9,7 @@ import java.util.HashMap;
 //import java.util.List;
 //import java.util.Random;
 
+
 import repast.simphony.context.Context;
 import repast.simphony.dataLoader.ContextBuilder;
 //import repast.simphony.engine.schedule.ScheduledMethod;
@@ -26,24 +27,29 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	 * @see repast.simphony.dataLoader.ContextBuilder#build(repast.simphony.context.Context)
 	 */
 	
-	public static int goodAmount = 10; //on set-up there are 10 goods in total
-	public static int goodTypes = 10;  //on set-up there are 10 types of goods in total
+	public static int goodAmount = 1000; //on set-up there are 10 goods in total
+	public static int goodTypes = 20;  //on set-up there are 10 types of goods in total
 	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();  //declares a hashmap to allow the details of a specific good ID to be looked up
 	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>(); //declares a hashmap to allow the price of a good type to be looked up
 	public static ArrayList<Good> goods = new ArrayList<Good>(); //an arraylist storing 'Good' objects
 	public static ArrayList<Consumer> consumers = new ArrayList<Consumer>(); //an arraylist storing 'Consumer' objects
+	public static ArrayList<Auctioneer> auctioneer = new ArrayList<Auctioneer>();
+	public static ArrayList<Integer> goodTypeAllocated = new ArrayList<Integer>();
+	
 	
 	@Override
 	public Context build(Context<Object> context) {
 		context.setId("jModel");
 		
 		context.add(new Controller());  //adds a new 'Controller' object to the context?
-		
+		Auctioneer a = new Auctioneer();
+		context.add(a); //adds a new 'Auctioneer' object to the context
+		auctioneer.add(a);//adds this Auctioneer object to a holding ArrayList
 		
 		ArrayList<Integer> goodTypeHolder = new ArrayList<Integer>(); //instantiates arraylist 'goodTypeHolder' of type int
 		
 		
-		int total_consumers = 1;
+		int total_consumers = 50; //the total number of consumers to create within the model
 				
 		
 		
@@ -53,7 +59,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			goodTypeHolder.add(i); //adds good number to goodTypeHolder arraylist
 			double price = RandomHelper.nextDoubleFromTo(0.0, 10.0); //generates random price (double) between 0 and 10
 			goodTypePrice.put(goodType, price); //adds this price within the goodTypePrice hashmap
-			
+			JModelBuilder.auctioneer.get(0).setPriceList(goodType, price);
 		}
 							
 		ArrayList<Integer> goodsLeft = new ArrayList<Integer>(); //instantiates arraylist 'goodsLeft' 
@@ -62,11 +68,13 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			int goodID = i;
 			goodsLeft.add(i);  //adds value of i to the 'goodsLeft' arraylist (which is used later)
 			int goodTypeSelect = RandomHelper.nextIntFromTo(0,goodTypes-1); //selects a good from id numbers 0 to goodTypes-1
-			Good a = new Good(goodTypePrice.get(goodTypeSelect), goodTypeSelect, goodID); //instantiates a new Good, with a price (based on the type), a type (assigned randomly from previous line), and a unique ID
-			context.add(a); //adds this good to the 'context'
-			goods.add(a); //adds this good to the arraylist 'goods'
+			goodTypeAllocated.add(goodTypeSelect);
+			Good b = new Good(goodTypePrice.get(goodTypeSelect), goodTypeSelect, goodID); //instantiates a new Good, with a price (based on the type), a type (assigned randomly from previous line), and a unique ID
+			
+			context.add(b); //adds this good to the 'context'
+			goods.add(b); //adds this good to the arraylist 'goods'
 			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect)); //adds the goodID and the price to the 'goodLookUp' hashmap
-			System.out.println(i);
+			//System.out.println(i);
 			System.out.println(goodTypeSelect);
 			System.out.println(goodTypePrice.get(goodTypeSelect));
 		}
@@ -75,7 +83,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		
 		
 		
-		int maxGoods = 1; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good.
+		int maxGoods = 5; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good. THINK THIS COMMENT NEEDS TO BE IMPLEMENTED
 		int minGoods = 1;
 		
 		for (int i=0; i < total_consumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
@@ -101,9 +109,11 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			//System.out.println(goodTypeHolder);
 			//System.out.println(goodsLeft);
 			
-			Consumer a = new Consumer(i, pref, goodsAllocated); //instantiates a new consumer with an id number (i), the preference list and a list of allocated goods)
-			context.add(a); //adds this consumer to the context
-			consumers.add(a);  //adds this consumer to the 'consumers' arraylist
+			Consumer c = new Consumer(i, pref, goodsAllocated); //instantiates a new consumer with an id number (i), the preference list and a list of allocated goods)
+			context.add(c); //adds this consumer to the context
+			consumers.add(c);  //adds this consumer to the 'consumers' arraylist
+			
+			double endowment = JModelBuilder.consumers.get(i).getEndowment();
 			//System.out.println(context.getAgentTypes());
 		}
 			
@@ -130,7 +140,12 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	public static double getGoodTypePrice(int goodTypeSelect){
 		return goodTypePrice.get(goodTypeSelect);
 			}
-			
+	
+	public static ArrayList<Integer> getGoodTypeAllocated(){
+		return goodTypeAllocated;
+	}
+	
+				
 }
 
 

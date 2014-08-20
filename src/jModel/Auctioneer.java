@@ -3,11 +3,192 @@
  */
 package jModel;
 
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 //another change
 /**
  * @author Chris West
  *
  */
 public class Auctioneer {
-
+	private ArrayList<Integer> allDemand = new ArrayList<Integer>();
+	private int[] demandTypeCount = new int[JModelBuilder.goodTypes];
+	private HashMap<Integer, Integer> demandMap = new HashMap<Integer, Integer>();
+	private int[] supplyTypeCount = new int[JModelBuilder.goodTypes];
+	private HashMap<Integer, Integer> supplyMap = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Double> priceList = new HashMap<Integer, Double>();
+	private int stuff;
+	File file = new File("test.txt");
+	
+	
+	//private double[] price = new double[JModelBuilder.goodTypes];
+	//private HashMap<Integer, Double> priceMap = new HashMap<Integer, Double>();
+	
+	public Auctioneer(){ //initialisation stuff
+				
+	}
+	
+	public int getDemand1(){
+		return demandMap.get(1);
+	}	
+	/*public int getDemand2(){
+		return demandMap.get(2);
+	}	
+	public int getDemand3(){
+		return demandMap.get(3);
+	}	
+	public int getDemand4(){
+		return demandMap.get(4);
+	}
+	public int getDemand5(){
+		return demandMap.get(5);
+	}
+	public int getDemand6(){
+		return demandMap.get(6);
+	}
+	public int getDemand7(){
+		return demandMap.get(7);
+	}
+	public int getDemand8(){
+		return demandMap.get(8);
+	}
+	public int getDemand9(){
+		return demandMap.get(9);
+	}
+	public int getDemand10(){
+		return demandMap.get(10);
+	}
+	
+	public int getSupply1(){
+		return supplyMap.get(1);
+	}*/
+	
+	
+	
+	public void calculateDemand() {
+		
+		demandMap.clear();
+		supplyMap.clear();
+		allDemand.clear();
+		PrintWriter output = null;
+		try {
+			output = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i<demandTypeCount.length;i++){
+			demandTypeCount[i] = 0;
+			supplyTypeCount[i] = 0;
+		}
+		
+		for(int i = 0; i<JModelBuilder.consumers.size(); i++){
+			allDemand.addAll(JModelBuilder.consumers.get(i).getShoppingBasket());
+			
+		}
+		
+		System.out.println(allDemand);
+		for(int i = 0; i<demandTypeCount.length; i++){
+		for(int j = 0; j<allDemand.size();j++){
+			if (allDemand.get(j) == i){
+				demandTypeCount[i]++;
+			}
+				
+			}
+		
+		//System.out.println(demandTypeCount[i]);
+		demandMap.put(i, demandTypeCount[i]); 
+		
+		
+		
+		for(int j = 0; j<JModelBuilder.goodTypeAllocated.size(); j++){
+			if (JModelBuilder.goodTypeAllocated.get(j) == i){
+				supplyTypeCount[i]++;
+			}
+		}
+		
+		
+		
+		supplyMap.put(i, supplyTypeCount[i]); 
+		
+		output.print(demandMap.get(i));
+		output.print(",");
+		output.println(supplyMap.get(i));
+		
+		//System.out.println(supplyTypeCount[i]);
+		
+		}
+		System.out.println(demandMap);
+		
+		output.println();
+		output.close();
+		System.out.println(supplyMap);
+		System.out.println(JModelBuilder.goodTypePrice); 
+		
+	}
+	
+	public void setNewPrices(){
+		
+		double a=0;
+		double[] b = new double[demandTypeCount.length];
+		double max = 0;
+		priceList.clear();
+		
+		for (int i=0; i<demandTypeCount.length;i++){
+			b[i] = (((double)demandMap.get(i) - (double)supplyMap.get(i)) / (double)supplyMap.get(i));
+			if(b[i]>max){
+				max = b[i];
+			}
+		}
+		
+		for (int i=0; i<demandTypeCount.length;i++){
+			if(b[i]>0){
+				b[i]=b[i]/max;
+			}
+		
+			double c = Math.abs(b[i]);
+			a = a+c;
+			//System.out.println(demandMap.get(i));
+			//System.out.println(supplyMap.get(i));
+			//System.out.println(b[i]);
+		}
+		for (int i=0; i<demandTypeCount.length;i++){
+						
+			JModelBuilder.goodTypePrice.put(i, Math.max(JModelBuilder.goodTypePrice.get(i) + ((b[i]/a)/* JModelBuilder.goodTypePrice.get(i)*/),0.01) );  
+			
+		}
+		
+		System.out.println(JModelBuilder.goodTypePrice); 
+		
+		for (int i=0; i<JModelBuilder.goodAmount; i++){
+			double price = JModelBuilder.goodTypePrice.get(JModelBuilder.goods.get(i).getType());
+			JModelBuilder.goods.get(i).setPrice(price);
+			priceList.put(JModelBuilder.goods.get(i).getType(), price);
+		}
+		System.out.print("AuctioneerPricelist: ");
+		System.out.println(priceList);
+	}
+	public double getPrice(int type){
+		return priceList.get(type);
+	}
+	
+	public void setPriceList(int type, double price){
+		priceList.put(type, price);
+	}
+	
+	
+	
+	
 }
+
+
