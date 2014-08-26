@@ -39,7 +39,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	
 	@Override
 	public Context build(Context<Object> context) {
-		context.setId("jModel");
+		context.setId("JModel");
 		
 		context.add(new Controller());  //adds a new 'Controller' object to the context?
 		Auctioneer a = new Auctioneer();
