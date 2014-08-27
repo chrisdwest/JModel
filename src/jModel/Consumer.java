@@ -45,14 +45,18 @@ public class Consumer {
 		return consumerIDNumber;
 	}
 	
+	public int getNumberGoodsAllocated(){
+		return goodsAllocated.size();
+	}
+	
 	public int getPreference(){
 		
 		return preference[9]; //for some reason i have set this to get only the last (10th) item in the preference list??
 	}
 	
-	public int getGoodID(){
+	public ArrayList<Integer> getGoodID(){
 		
-		return goodsAllocated.get(0); //and for some reason i have set this to get the first item in the goods list???
+		return goodsAllocated; //and for some reason i have set this to get the first item in the goods list???
 	}
 	
 	private double endowment(ArrayList<Good> goods, ArrayList<Integer> goodsAllocated){ //function has all Goods in the goods arraylist pass in, and the goodsAllocated array of the consumer 
@@ -75,15 +79,15 @@ public class Consumer {
 		}
 		System.out.print("ConsumerName:");
 		System.out.println(consumerName);
-		System.out.println(type);
+		//System.out.println(type);
 		System.out.println(totalEndowment);
 		return totalEndowment;
 	}
 	
 	private double maxUtility(ArrayList<Good> goods, int[] preference, ArrayList<Integer> goodsAllocated){  //passes arraylist of Goods, the consumer preferences, and the allocated goods
-		System.out.print("ConsumerName:");
-		System.out.println(consumerName);
-		System.out.println(totalEndowment);
+		//System.out.print("ConsumerName:");
+		//System.out.println(consumerName);
+		//System.out.println(totalEndowment);
 		//double endowment = 0;
 		
 		double goodPrice = 0;

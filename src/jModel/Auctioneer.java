@@ -21,6 +21,8 @@ import java.util.Random;
  */
 public class Auctioneer {
 	private ArrayList<Integer> allDemand = new ArrayList<Integer>();
+	private ArrayList<Integer> allSupplyIDs = new ArrayList<Integer>();
+	private ArrayList<Integer> allSupplyTypes = new ArrayList<Integer>();
 	private int[] demandTypeCount = new int[JModelBuilder.goodTypes];
 	private HashMap<Integer, Integer> demandMap = new HashMap<Integer, Integer>();
 	private int[] supplyTypeCount = new int[JModelBuilder.goodTypes];
@@ -79,6 +81,9 @@ public class Auctioneer {
 		demandMap.clear();
 		supplyMap.clear();
 		allDemand.clear();
+		allSupplyIDs.clear();
+		allSupplyTypes.clear();
+		
 		PrintWriter output = null;
 		try {
 			output = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
@@ -94,7 +99,13 @@ public class Auctioneer {
 		
 		for(int i = 0; i<JModelBuilder.consumers.size(); i++){
 			allDemand.addAll(JModelBuilder.consumers.get(i).getShoppingBasket());
+			allSupplyIDs.addAll(JModelBuilder.consumers.get(i).getGoodID());
+		}
+		
 			
+				
+		for (int i = 0; i<allSupplyIDs.size(); i++){
+			allSupplyTypes.add(JModelBuilder.goods.get(allSupplyIDs.get(i)).getType()); 
 		}
 		
 		System.out.println(allDemand);
@@ -111,8 +122,8 @@ public class Auctioneer {
 		
 		
 		
-		for(int j = 0; j<JModelBuilder.goodTypeAllocated.size(); j++){
-			if (JModelBuilder.goodTypeAllocated.get(j) == i){
+		for(int j = 0; j<allSupplyTypes.size(); j++){
+			if (allSupplyTypes.get(j) == i){
 				supplyTypeCount[i]++;
 			}
 		}
@@ -164,7 +175,7 @@ public class Auctioneer {
 		}
 		for (int i=0; i<demandTypeCount.length;i++){
 						
-			JModelBuilder.goodTypePrice.put(i, Math.max(JModelBuilder.goodTypePrice.get(i) + ((b[i]/a)/* JModelBuilder.goodTypePrice.get(i)*/),0.01) );  
+			JModelBuilder.goodTypePrice.put(i, Math.max(JModelBuilder.goodTypePrice.get(i) + ((b[i]/a)/* JModelBuilder.goodTypePrice.get(i)*/),0.00001) );  
 			
 		}
 		
@@ -178,6 +189,8 @@ public class Auctioneer {
 		System.out.print("AuctioneerPricelist: ");
 		System.out.println(priceList);
 	}
+	
+	
 	public double getPrice(int type){
 		return priceList.get(type);
 	}
