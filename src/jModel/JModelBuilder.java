@@ -49,7 +49,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		ArrayList<Integer> goodTypeHolder = new ArrayList<Integer>(); //instantiates arraylist 'goodTypeHolder' of type int
 		
 		
-		int total_consumers = 20; //the total number of consumers to create within the model
+		int total_consumers = 10; //the total number of consumers to create within the model
 				
 		
 		
@@ -83,8 +83,8 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		
 		
 		
-		int maxGoods = 10; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good. THINK THIS COMMENT NEEDS TO BE IMPLEMENTED
-		int minGoods = 10;
+		int maxGoods = 30; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good. THINK THIS COMMENT NEEDS TO BE IMPLEMENTED
+		int minGoods = 30;
 		
 		for (int i=0; i < total_consumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
 			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform()); //creates a random (shuffled) list of 'goodtypes'

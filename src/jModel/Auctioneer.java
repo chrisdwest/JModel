@@ -94,7 +94,7 @@ public class Auctioneer {
 		
 		output.print("Step: ");
 		output.println(Controller.getStep());
-		output.println("GoodType, Demand, Supply");
+		output.println("GoodType, Demand, Supply, Price");
 		
 		for (int i = 0; i<demandTypeCount.length;i++){
 			demandTypeCount[i] = 0;
@@ -140,7 +140,9 @@ public class Auctioneer {
 		output.print(",");
 		output.print(demandMap.get(i));
 		output.print(",");
-		output.println(supplyMap.get(i));
+		output.print(supplyMap.get(i));
+		output.print(",");
+		output.println(priceList.get(i));
 		
 		//System.out.println(supplyTypeCount[i]);
 		
@@ -149,11 +151,11 @@ public class Auctioneer {
 		
 		output.println();
 		
-		for (int i = 0; i<JModelBuilder.consumers.size(); i++){
-			output.println(JModelBuilder.consumers.get(i).getShoppingBasket());
-		}
+		//for (int i = 0; i<JModelBuilder.consumers.size(); i++){
+		//	output.println(JModelBuilder.consumers.get(i).getShoppingBasket());
+		//}
 		
-		output.println();
+		//output.println();
 		
 		output.close();
 		//System.out.println(supplyMap);
@@ -165,17 +167,32 @@ public class Auctioneer {
 		
 		double a=0;
 		double[] b = new double[demandTypeCount.length];
+		double c = 0;
 		double max = 0;
 		priceList.clear();
 		
 		for (int i=0; i<demandTypeCount.length;i++){
+			
+			/* old method
 			b[i] = (((double)demandMap.get(i) - (double)supplyMap.get(i)) / (double)supplyMap.get(i));
+			*/
+			
+			//new method
+			b[i] = ((double)demandMap.get(i) / (double)supplyMap.get(i));
+			c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
+			//System.out.println(c);
+			JModelBuilder.goodTypePrice.put(i, JModelBuilder.goodTypePrice.get(i)*c);
+			
+			/*not needed for new method
 			if(b[i]>max){
 				max = b[i];
 			}
+			*/
 		}
-		
+		/*OLD METHOD
 		for (int i=0; i<demandTypeCount.length;i++){
+			
+			
 			if(b[i]>0){
 				b[i]=b[i]/max;
 			}
@@ -186,12 +203,13 @@ public class Auctioneer {
 			//System.out.println(supplyMap.get(i));
 			//System.out.println(b[i]);
 		}
+		
 		for (int i=0; i<demandTypeCount.length;i++){
 						
-			JModelBuilder.goodTypePrice.put(i, Math.max(JModelBuilder.goodTypePrice.get(i) + ((b[i]/a)/* JModelBuilder.goodTypePrice.get(i)*/),0.00001) );  
+			JModelBuilder.goodTypePrice.put(i, Math.max(JModelBuilder.goodTypePrice.get(i) + ((b[i]/a)/* JModelBuilder.goodTypePrice.get(i)*//*),0.00001) );  
 			
 		}
-		
+	    */
 		//System.out.println(JModelBuilder.goodTypePrice); 
 		
 		for (int i=0; i<JModelBuilder.goodAmount; i++){
