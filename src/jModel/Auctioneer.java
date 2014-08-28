@@ -92,6 +92,10 @@ public class Auctioneer {
 			e.printStackTrace();
 		}
 		
+		output.print("Step: ");
+		output.println(Controller.getStep());
+		output.println("GoodType, Demand, Supply");
+		
 		for (int i = 0; i<demandTypeCount.length;i++){
 			demandTypeCount[i] = 0;
 			supplyTypeCount[i] = 0;
@@ -108,7 +112,7 @@ public class Auctioneer {
 			allSupplyTypes.add(JModelBuilder.goods.get(allSupplyIDs.get(i)).getType()); 
 		}
 		
-		System.out.println(allDemand);
+		//System.out.println(allDemand);
 		for(int i = 0; i<demandTypeCount.length; i++){
 		for(int j = 0; j<allDemand.size();j++){
 			if (allDemand.get(j) == i){
@@ -132,6 +136,8 @@ public class Auctioneer {
 		
 		supplyMap.put(i, supplyTypeCount[i]); 
 		
+		output.print(i);
+		output.print(",");
 		output.print(demandMap.get(i));
 		output.print(",");
 		output.println(supplyMap.get(i));
@@ -139,12 +145,19 @@ public class Auctioneer {
 		//System.out.println(supplyTypeCount[i]);
 		
 		}
-		System.out.println(demandMap);
+		//System.out.println(demandMap);
 		
 		output.println();
+		
+		for (int i = 0; i<JModelBuilder.consumers.size(); i++){
+			output.println(JModelBuilder.consumers.get(i).getShoppingBasket());
+		}
+		
+		output.println();
+		
 		output.close();
-		System.out.println(supplyMap);
-		System.out.println(JModelBuilder.goodTypePrice); 
+		//System.out.println(supplyMap);
+		//System.out.println(JModelBuilder.goodTypePrice); 
 		
 	}
 	
@@ -179,15 +192,17 @@ public class Auctioneer {
 			
 		}
 		
-		System.out.println(JModelBuilder.goodTypePrice); 
+		//System.out.println(JModelBuilder.goodTypePrice); 
 		
 		for (int i=0; i<JModelBuilder.goodAmount; i++){
 			double price = JModelBuilder.goodTypePrice.get(JModelBuilder.goods.get(i).getType());
 			JModelBuilder.goods.get(i).setPrice(price);
 			priceList.put(JModelBuilder.goods.get(i).getType(), price);
 		}
-		System.out.print("AuctioneerPricelist: ");
-		System.out.println(priceList);
+		//System.out.print("AuctioneerPricelist: ");
+		//System.out.println(priceList);
+		//
+		
 	}
 	
 	

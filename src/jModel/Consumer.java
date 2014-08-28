@@ -77,10 +77,10 @@ public class Consumer {
 			totalEndowment = totalEndowment + goodPrice; //add this price to the totalEndowment (after looping, totalEndowment will equal sum of prices of all goods allocated
 			
 		}
-		System.out.print("ConsumerName:");
-		System.out.println(consumerName);
+		//System.out.print("ConsumerName:");
+		//System.out.println(consumerName);
 		//System.out.println(type);
-		System.out.println(totalEndowment);
+		//System.out.println(totalEndowment);
 		return totalEndowment;
 	}
 	
@@ -101,8 +101,8 @@ public class Consumer {
 			
 			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
 			
-			System.out.println(preference[i]);
-			System.out.println(goodPrice);
+			//System.out.println(preference[i]);
+			//System.out.println(goodPrice);
 			
 			if (goodPrice<=endowment_remainder){  //if the goodPrice is less or equal to the amount of money they have left
 				//System.out.println("Hooray - gimme gimme"); //i.e. I can afford that, and I want it now...
@@ -122,7 +122,7 @@ public class Consumer {
 			
 		}
 		
-		System.out.println(shoppingBasket);
+		//System.out.println(shoppingBasket);
 		
 		//System.out.println(endowment);  //think these 5 lines were just for error checking??
 		//int firstPref = preference[0];

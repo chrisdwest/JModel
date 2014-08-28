@@ -75,8 +75,8 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			goods.add(b); //adds this good to the arraylist 'goods'
 			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect)); //adds the goodID and the price to the 'goodLookUp' hashmap
 			//System.out.println(i);
-			System.out.println(goodTypeSelect);
-			System.out.println(goodTypePrice.get(goodTypeSelect));
+			//System.out.println(goodTypeSelect);
+			//System.out.println(goodTypePrice.get(goodTypeSelect));
 		}
 		
 		

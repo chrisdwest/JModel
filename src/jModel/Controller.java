@@ -14,13 +14,15 @@ import repast.simphony.engine.schedule.ScheduledMethod;
  */
 public class Controller {
 	
+	public static int timestep = 0; 
+	
 	public Controller(){
 	
 	} 
 	
 	@ScheduledMethod(start = 1, interval = 1)   //this is some Java-based stuff which schedules the start and interval of runs
 	public void step(){ //the step function
-		
+		timestep++;
 		Collections.shuffle(JModelBuilder.consumers);
 		
 		for (int i = 0; i<JModelBuilder.consumers.size();i++){  //for all consumers that have been set up NOTE: NOT SURE THIS IS PROPER CODE YET
@@ -35,6 +37,11 @@ public class Controller {
 				
 		
 		
+	}
+	
+	public static int getStep(){
+		return timestep;
+	
 	}
 
 }
