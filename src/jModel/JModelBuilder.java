@@ -79,7 +79,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			//System.out.println(goodTypePrice.get(goodTypeSelect));
 		}
 		
-		//
+		
 		
 		
 		
