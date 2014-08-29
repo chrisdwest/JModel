@@ -3,8 +3,16 @@
  */
 package jModel;
 
+
 import java.util.ArrayList;
 import java.util.Random;
+
+import Jama.Matrix;
+
+
+
+
+
 //import java.util.HashMap;
 //import java.util.List;
 
@@ -77,10 +85,10 @@ public class Consumer {
 			totalEndowment = totalEndowment + goodPrice; //add this price to the totalEndowment (after looping, totalEndowment will equal sum of prices of all goods allocated
 			
 		}
-		//System.out.print("ConsumerName:");
-		//System.out.println(consumerName);
+		System.out.print("ConsumerName:");
+		System.out.println(consumerName);
 		//System.out.println(type);
-		//System.out.println(totalEndowment);
+		System.out.println(totalEndowment);
 		return totalEndowment;
 	}
 	
@@ -90,19 +98,32 @@ public class Consumer {
 		//System.out.println(totalEndowment);
 		//double endowment = 0;
 		
-		double goodPrice = 0;
+		//double goodPrice = 0;
+		double[] goodPrice = new double[preference.length];
+		
 		shoppingBasket.clear();
 		
 		double theoreticalMax = 0; 
 		//endowment = endowment(goods, goodsAllocated); //calls endowment function and sets 'endowment' to returned double
 		double endowment_remainder = totalEndowment;
+		double[] endowment_rem_vector = new double[preference.length];
 		
-		for (int i = 0; i<preference.length; i++){ //in order of preference
+		for (int i = 0; i<preference.length; i++){
+			goodPrice[i] = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
+			endowment_rem_vector[i] = totalEndowment; 
+		}
+		
+		Matrix goodPriceMat = new Matrix(goodPrice, preference.length);
+		
+		//int[] canAfford = Math.floor(endowment_rem_vector./goodPrice);
+		
+		/*for (int i = 0; i<preference.length; i++){ //in order of preference
 			
-			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
+			//goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
 			
-			//System.out.println(preference[i]);
-			//System.out.println(goodPrice);
+			
+			System.out.println(preference[i]);
+			System.out.println(goodPrice);
 			
 			if (goodPrice<=endowment_remainder){  //if the goodPrice is less or equal to the amount of money they have left
 				//System.out.println("Hooray - gimme gimme"); //i.e. I can afford that, and I want it now...
@@ -118,11 +139,11 @@ public class Consumer {
 			}
 			
 			
-				
+		*/		
 			
 		}
 		
-		//System.out.println(shoppingBasket);
+		System.out.println(shoppingBasket);
 		
 		//System.out.println(endowment);  //think these 5 lines were just for error checking??
 		//int firstPref = preference[0];

@@ -6,13 +6,11 @@ package jModel;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 //another change
 /**
@@ -83,6 +81,12 @@ public class Auctioneer {
 		allDemand.clear();
 		allSupplyIDs.clear();
 		allSupplyTypes.clear();
+		int totalSupply = 0;
+		int totalDemand = 0;
+		
+		
+		
+		
 		
 		PrintWriter output = null;
 		try {
@@ -148,6 +152,11 @@ public class Auctioneer {
 		
 		}
 		//System.out.println(demandMap);
+		for (int i=0;i<supplyMap.size();i++){
+			totalSupply = totalSupply + supplyMap.get(i);
+			totalDemand = totalDemand + demandMap.get(i);
+		}
+		System.out.println(totalSupply - totalDemand);
 		
 		output.println();
 		

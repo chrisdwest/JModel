@@ -5,7 +5,6 @@ package jModel;
 
 import java.util.Collections;
 
-import jModel.JModelBuilder;
 import repast.simphony.engine.schedule.ScheduledMethod;
 
 /**

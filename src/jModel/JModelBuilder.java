@@ -9,7 +9,6 @@ import java.util.HashMap;
 //import java.util.List;
 //import java.util.Random;
 
-
 import repast.simphony.context.Context;
 import repast.simphony.dataLoader.ContextBuilder;
 //import repast.simphony.engine.schedule.ScheduledMethod;
