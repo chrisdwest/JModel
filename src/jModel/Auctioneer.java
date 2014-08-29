@@ -179,7 +179,10 @@ public class Auctioneer {
 			
 			//new method
 			b[i] = ((double)demandMap.get(i) / (double)supplyMap.get(i));
-			c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
+			//c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
+			c = Math.min((0.5*b[i])+0.5,1.5);
+									
+			
 			//System.out.println(c);
 			JModelBuilder.goodTypePrice.put(i, JModelBuilder.goodTypePrice.get(i)*c);
 			
@@ -217,6 +220,8 @@ public class Auctioneer {
 			JModelBuilder.goods.get(i).setPrice(price);
 			priceList.put(JModelBuilder.goods.get(i).getType(), price);
 		}
+		
+		
 		//System.out.print("AuctioneerPricelist: ");
 		//System.out.println(priceList);
 		//

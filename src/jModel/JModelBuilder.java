@@ -29,13 +29,14 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	
 	public static int goodAmount = 1000; //on set-up there are 10 goods in total
 	public static int goodTypes = 10;  //on set-up there are 10 types of goods in total
+	public static int totalConsumers = 10;
 	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();  //declares a hashmap to allow the details of a specific good ID to be looked up
 	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>(); //declares a hashmap to allow the price of a good type to be looked up
 	public static ArrayList<Good> goods = new ArrayList<Good>(); //an arraylist storing 'Good' objects
 	public static ArrayList<Consumer> consumers = new ArrayList<Consumer>(); //an arraylist storing 'Consumer' objects
 	public static ArrayList<Auctioneer> auctioneer = new ArrayList<Auctioneer>();
 	public static ArrayList<Integer> goodTypeAllocated = new ArrayList<Integer>();
-	//public static ArrayList<Integer> goodsAllocatedByType = new ArrayList<Integer>();
+	public static ArrayList<Integer> goodsLeft = new ArrayList<Integer>(); //instantiates arraylist 'goodsLeft' 
 	
 	@Override
 	public Context build(Context<Object> context) {
@@ -47,13 +48,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		auctioneer.add(a);//adds this Auctioneer object to a holding ArrayList
 		
 		ArrayList<Integer> goodTypeHolder = new ArrayList<Integer>(); //instantiates arraylist 'goodTypeHolder' of type int
-		
-		
-		int total_consumers = 10; //the total number of consumers to create within the model
 				
-		
-		
-		
 		for (int i=0; i < goodTypes; i++){  //this for loop assigns id numbers (between 0 and goodTypes-1) and prices to goods.
 			int goodType = i;
 			goodTypeHolder.add(i); //adds good number to goodTypeHolder arraylist
@@ -62,8 +57,6 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			JModelBuilder.auctioneer.get(0).setPriceList(goodType, price);
 		}
 							
-		ArrayList<Integer> goodsLeft = new ArrayList<Integer>(); //instantiates arraylist 'goodsLeft' 
-		
 		for (int i=0; i < goodAmount; i++){  //for all goods, this sets a price, type and ID number.
 			int goodID = i;
 			goodsLeft.add(i);  //adds value of i to the 'goodsLeft' arraylist (which is used later)
@@ -86,7 +79,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		int maxGoods = 30; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good. THINK THIS COMMENT NEEDS TO BE IMPLEMENTED
 		int minGoods = 30;
 		
-		for (int i=0; i < total_consumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
+		for (int i=0; i < totalConsumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
 			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform()); //creates a random (shuffled) list of 'goodtypes'
 			int[] pref = new int[goodTypes]; //instantiates an array to hold the list of preferences for good types for a consumer
 			for (int j = 0; j<goodTypes; j++){ //for all 'goodtypes'
