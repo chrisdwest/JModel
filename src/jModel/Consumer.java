@@ -139,11 +139,11 @@ public class Consumer {
 			}
 			
 			
-		*/		
+				
 			
 		}
-		
-		System.out.println(shoppingBasket);
+		*/
+		//System.out.println(shoppingBasket);
 		
 		//System.out.println(endowment);  //think these 5 lines were just for error checking??
 		//int firstPref = preference[0];
