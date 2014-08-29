@@ -189,7 +189,7 @@ public class Auctioneer {
 			//new method
 			b[i] = ((double)demandMap.get(i) / (double)supplyMap.get(i));
 			//c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
-			c = Math.min((0.5*b[i])+0.5,1.5);
+			c = Math.min((0.1*b[i])+0.9,1.1);
 									
 			
 			//System.out.println(c);
@@ -246,7 +246,9 @@ public class Auctioneer {
 		priceList.put(type, price);
 	}
 	
-	
+	public HashMap<Integer,Integer> getSupplyMap(){
+		return supplyMap;
+	}
 	
 	
 }

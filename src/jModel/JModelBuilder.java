@@ -26,15 +26,17 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	 * @see repast.simphony.dataLoader.ContextBuilder#build(repast.simphony.context.Context)
 	 */
 	
-	public static int goodAmount = 1000; //on set-up there are 10 goods in total
-	public static int goodTypes = 10;  //on set-up there are 10 types of goods in total
-	public static int totalConsumers = 10;
+	public static int goodAmount = 2000; //on set-up there are 10 goods in total
+	public static int goodTypes = 5;  //on set-up there are 10 types of goods in total
+	public static int totalConsumers = 20;
 	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();  //declares a hashmap to allow the details of a specific good ID to be looked up
+	//public static HashMap<Integer, Integer> goodLookUpType = new HashMap<Integer, Integer>();
 	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>(); //declares a hashmap to allow the price of a good type to be looked up
 	public static ArrayList<Good> goods = new ArrayList<Good>(); //an arraylist storing 'Good' objects
 	public static ArrayList<Consumer> consumers = new ArrayList<Consumer>(); //an arraylist storing 'Consumer' objects
 	public static ArrayList<Auctioneer> auctioneer = new ArrayList<Auctioneer>();
 	public static ArrayList<Integer> goodTypeAllocated = new ArrayList<Integer>();
+	//public static HashMap<Integer, Integer> goodTypeAllocatedCount = new HashMap<Integer, Integer>();
 	public static ArrayList<Integer> goodsLeft = new ArrayList<Integer>(); //instantiates arraylist 'goodsLeft' 
 	
 	@Override
@@ -51,7 +53,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		for (int i=0; i < goodTypes; i++){  //this for loop assigns id numbers (between 0 and goodTypes-1) and prices to goods.
 			int goodType = i;
 			goodTypeHolder.add(i); //adds good number to goodTypeHolder arraylist
-			double price = 1.0;//RandomHelper.nextDoubleFromTo(0.0, 10.0); //generates random price (double) between 0 and 10
+			double price = RandomHelper.nextDoubleFromTo(0.0, 10.0); //generates random price (double) between 0 and 10
 			goodTypePrice.put(goodType, price); //adds this price within the goodTypePrice hashmap
 			JModelBuilder.auctioneer.get(0).setPriceList(goodType, price);
 		}
@@ -66,6 +68,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 			context.add(b); //adds this good to the 'context'
 			goods.add(b); //adds this good to the arraylist 'goods'
 			goodLookUp.put(goodID,goodTypePrice.get(goodTypeSelect)); //adds the goodID and the price to the 'goodLookUp' hashmap
+			//goodLookUpType.put(goodID, goodTypeSelect);
 			//System.out.println(i);
 			//System.out.println(goodTypeSelect);
 			//System.out.println(goodTypePrice.get(goodTypeSelect));
@@ -94,9 +97,10 @@ public class JModelBuilder implements ContextBuilder<Object> {
 				int rand = RandomHelper.nextIntFromTo(0,goodsLeft.size()-1); //creates random number between 0 and the number of goodsLeft-1
 				
 				goodsAllocated.add(goodsLeft.get(rand)); //adds a random good ID number to the goodsAllocated arraylist
-				
+				//goodTypeAllocatedCount.put(goodLookUpType.get(goodsAllocated.get(rand)), goodTypeAllocatedCount.get(goodLookUpType.get(goodsAllocated.get(rand))+1);
 				goodsLeft.remove(rand); //removes this good from the 'Goodsleft' list
 			}
+			
 			//System.out.println(goodsAllocated);
 			//System.out.println(goodTypeHolder);
 			//System.out.println(goodsLeft);
