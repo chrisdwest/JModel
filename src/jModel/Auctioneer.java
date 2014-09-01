@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//another change
 /**
  * @author Chris West
  *
@@ -26,13 +25,10 @@ public class Auctioneer {
 	private int[] supplyTypeCount = new int[JModelBuilder.goodTypes];
 	private HashMap<Integer, Integer> supplyMap = new HashMap<Integer, Integer>();
 	private HashMap<Integer, Double> priceList = new HashMap<Integer, Double>();
-	private int stuff;
 	File file = new File("test.txt");
 	
 	
-	//private double[] price = new double[JModelBuilder.goodTypes];
-	//private HashMap<Integer, Double> priceMap = new HashMap<Integer, Double>();
-	
+		
 	public Auctioneer(){ //initialisation stuff
 				
 	}
@@ -40,40 +36,7 @@ public class Auctioneer {
 	public int getDemand1(){
 		return demandMap.get(1);
 	}	
-	/*public int getDemand2(){
-		return demandMap.get(2);
-	}	
-	public int getDemand3(){
-		return demandMap.get(3);
-	}	
-	public int getDemand4(){
-		return demandMap.get(4);
-	}
-	public int getDemand5(){
-		return demandMap.get(5);
-	}
-	public int getDemand6(){
-		return demandMap.get(6);
-	}
-	public int getDemand7(){
-		return demandMap.get(7);
-	}
-	public int getDemand8(){
-		return demandMap.get(8);
-	}
-	public int getDemand9(){
-		return demandMap.get(9);
-	}
-	public int getDemand10(){
-		return demandMap.get(10);
-	}
-	
-	public int getSupply1(){
-		return supplyMap.get(1);
-	}*/
-	
-	
-	
+		
 	public void calculateDemand() {
 		
 		demandMap.clear();
@@ -83,10 +46,6 @@ public class Auctioneer {
 		allSupplyTypes.clear();
 		int totalSupply = 0;
 		int totalDemand = 0;
-		
-		
-		
-		
 		
 		PrintWriter output = null;
 		try {
@@ -116,27 +75,21 @@ public class Auctioneer {
 			allSupplyTypes.add(JModelBuilder.goods.get(allSupplyIDs.get(i)).getType()); 
 		}
 		
-		//System.out.println(allDemand);
 		for(int i = 0; i<demandTypeCount.length; i++){
-		for(int j = 0; j<allDemand.size();j++){
-			if (allDemand.get(j) == i){
-				demandTypeCount[i]++;
-			}
+			for(int j = 0; j<allDemand.size();j++){
+				if (allDemand.get(j) == i){
+					demandTypeCount[i]++;
+				}
 				
 			}
 		
-		//System.out.println(demandTypeCount[i]);
 		demandMap.put(i, demandTypeCount[i]); 
-		
-		
 		
 		for(int j = 0; j<allSupplyTypes.size(); j++){
 			if (allSupplyTypes.get(j) == i){
 				supplyTypeCount[i]++;
 			}
 		}
-		
-		
 		
 		supplyMap.put(i, supplyTypeCount[i]); 
 		
@@ -148,10 +101,9 @@ public class Auctioneer {
 		output.print(",");
 		output.println(priceList.get(i));
 		
-		//System.out.println(supplyTypeCount[i]);
-		
+				
 		}
-		//System.out.println(demandMap);
+		
 		for (int i=0;i<supplyMap.size();i++){
 			totalSupply = totalSupply + supplyMap.get(i);
 			totalDemand = totalDemand + demandMap.get(i);
@@ -160,24 +112,17 @@ public class Auctioneer {
 		
 		output.println();
 		
-		//for (int i = 0; i<JModelBuilder.consumers.size(); i++){
-		//	output.println(JModelBuilder.consumers.get(i).getShoppingBasket());
-		//}
-		
-		//output.println();
-		
 		output.close();
-		//System.out.println(supplyMap);
-		//System.out.println(JModelBuilder.goodTypePrice); 
+		
 		
 	}
 	
 	public void setNewPrices(){
 		
-		double a=0;
+		//double a=0;
 		double[] b = new double[demandTypeCount.length];
 		double c = 0;
-		double max = 0;
+		//double max = 0;
 		priceList.clear();
 		
 		for (int i=0; i<demandTypeCount.length;i++){
@@ -192,7 +137,7 @@ public class Auctioneer {
 			c = Math.min((0.1*b[i])+0.9,1.1);
 									
 			
-			//System.out.println(c);
+			
 			JModelBuilder.goodTypePrice.put(i, JModelBuilder.goodTypePrice.get(i)*c);
 			
 			/*not needed for new method
@@ -211,9 +156,7 @@ public class Auctioneer {
 		
 			double c = Math.abs(b[i]);
 			a = a+c;
-			//System.out.println(demandMap.get(i));
-			//System.out.println(supplyMap.get(i));
-			//System.out.println(b[i]);
+			
 		}
 		
 		for (int i=0; i<demandTypeCount.length;i++){
@@ -222,19 +165,13 @@ public class Auctioneer {
 			
 		}
 	    */
-		//System.out.println(JModelBuilder.goodTypePrice); 
-		
+				
 		for (int i=0; i<JModelBuilder.goodAmount; i++){
 			double price = JModelBuilder.goodTypePrice.get(JModelBuilder.goods.get(i).getType());
 			JModelBuilder.goods.get(i).setPrice(price);
 			priceList.put(JModelBuilder.goods.get(i).getType(), price);
 		}
-		
-		
-		//System.out.print("AuctioneerPricelist: ");
-		//System.out.println(priceList);
-		//
-		
+				
 	}
 	
 	

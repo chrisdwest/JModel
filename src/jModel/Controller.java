@@ -26,16 +26,12 @@ public class Controller {
 		
 		for (int i = 0; i<JModelBuilder.consumers.size();i++){  //for all consumers that have been set up NOTE: NOT SURE THIS IS PROPER CODE YET
 			double endowment = JModelBuilder.consumers.get(i).getEndowment();  //extract the endowment of that consumer from the getEndowment function
-			//System.out.println(endowment);
 			double maxUtility = JModelBuilder.consumers.get(i).getMaxUtility(); //extract the maximum utility of the consumer from the getMaxUtility function
 		}
 		
 		JModelBuilder.auctioneer.get(0).calculateDemand();
 		JModelBuilder.auctioneer.get(0).setNewPrices();
-		
-				
-		
-		
+					
 	}
 	
 	public static int getStep(){

@@ -8,20 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import Jama.Matrix;
-
-
-
-
-
-//import java.util.HashMap;
-//import java.util.List;
-
-//import repast.simphony.engine.schedule.ScheduledMethod;
-
-
-
-
 /**
  * @author Chris West
  *
@@ -29,7 +15,6 @@ import Jama.Matrix;
 public class Consumer {
 	
 	private int consumerIDNumber;  //holds consumer ID number
-	//private ArrayList<Good> goodsOwned;
 	private int[] preference; //holds preference array
 	private ArrayList<Integer> goodsAllocated; //arraylist holds allocated good details (by good ID number)
 	double totalEndowment; //holds total endowment of the consumer	 
@@ -90,25 +75,16 @@ public class Consumer {
 			totalEndowment = totalEndowment + goodPrice; //add this price to the totalEndowment (after looping, totalEndowment will equal sum of prices of all goods allocated
 			
 		}
-		//System.out.print("ConsumerName:");
-		//System.out.println(consumerName);
-		//System.out.println(type);
-		//System.out.println(totalEndowment);
+		
 		return totalEndowment;
 	}
 	
 	private double maxUtility(ArrayList<Good> goods, int[] preference, ArrayList<Integer> goodsAllocated){  //passes arraylist of Goods, the consumer preferences, and the allocated goods
-		//System.out.print("ConsumerName:");
-		//System.out.println(consumerName);
-		//System.out.println(totalEndowment);
-		//double endowment = 0;
-		
+			
 		supplyMap.clear();
 		allSupplyIDs.clear();
 		allSupplyTypes.clear();
-		int totalSupply = 0;
-		int totalDemand = 0;
-		
+				
 		for (int i = 0; i<supplyTypeCount.length;i++){
 			supplyTypeCount[i] = 0;
 		}
@@ -121,7 +97,6 @@ public class Consumer {
 			allSupplyTypes.add(JModelBuilder.goods.get(allSupplyIDs.get(i)).getType()); 
 		}
 		
-		//System.out.println(allDemand);
 		for(int i = 0; i<supplyTypeCount.length; i++){
 		
 		
@@ -140,35 +115,9 @@ public class Consumer {
 		
 		shoppingBasket.clear();
 		
-		double theoreticalMax = 0; 
-		
 		//endowment = endowment(goods, goodsAllocated); //calls endowment function and sets 'endowment' to returned double
 		double endowment_remainder = totalEndowment;
-		/*double[] endowment_rem_vector = new double[preference.length];
 		
-		for (int i = 0; i<preference.length; i++){
-			goodPrice[i] = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
-			endowment_rem_vector[i] = totalEndowment; 
-		}
-		
-		Matrix goodPriceMat = new Matrix(goodPrice,1);
-		Matrix endowmentMat = new Matrix(endowment_rem_vector, 1);
-		Matrix result = endowmentMat.arrayRightDivide(goodPriceMat);
-		Matrix preferenceMat = new Matrix(1,preference.length);
-		
-		for (int i = 0; i<preference.length; i++){
-		result.set(0,i,Math.floor(result.get(0,i)));
-		preferenceMat.set(0,i,(preference.length-i));
-		}
-		
-		goodPriceMat.print(10, 10);
-		endowmentMat.print(10, 10);
-		preferenceMat.print(10,10);
-		result.print(10,10);
-		
-		Matrix utility = result.arrayTimes(preferenceMat);
-		utility.print(10, 10);
-		*/
 		double minPrice=10000; //this isn't very satisfactory at the moment...
 		for (int i=0; i<preference.length; i++){
 			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
@@ -176,8 +125,6 @@ public class Consumer {
 				minPrice = goodPrice;
 			}
 		}
-		
-		//System.out.println(minPrice);
 		
 		while(endowment_remainder>=minPrice){
 			double utilityMax = 0;
@@ -198,30 +145,18 @@ public class Consumer {
 			utilityMaxAmount = result;
 			utilityMax = utility;
 			}
-			
-			//System.out.println(preference[i]);
-			//System.out.println(supplyMap.get(preference[i]));
-			//System.out.println(preference[i]);
-			//System.out.println(goodPrice);
-			//System.out.println(endowment_remainder);
-			//System.out.println(result);
-			//System.out.println(score);
-			//System.out.println(utility);
-			//System.out.println(utilityMax);
+						
 		}
 		
 		double costOfPreference = utilityMaxAmount * JModelBuilder.auctioneer.get(0).getPrice(preference[utilityMaxRef]);
-		//System.out.println(utilityMaxAmount);
-		//System.out.println(JModelBuilder.auctioneer.get(0).getPrice(preference[utilityMaxRef]));
-		//System.out.println(costOfPreference);
-		
+				
 		endowment_remainder = endowment_remainder - costOfPreference;
-		//System.out.println(endowment_remainder);
+		
 		
 		for(int i = 0; i<utilityMaxAmount;i++){
 			shoppingBasket.add(preference[utilityMaxRef]);
 		}
-		//System.out.println(shoppingBasket);
+		
 		}
 		//System.out.println(shoppingBasket);
 		/*for (int i = 0; i<preference.length; i++){ //in order of preference
@@ -233,7 +168,6 @@ public class Consumer {
 			System.out.println(goodPrice);
 			
 			if (goodPrice<=endowment_remainder){  //if the goodPrice is less or equal to the amount of money they have left
-				//System.out.println("Hooray - gimme gimme"); //i.e. I can afford that, and I want it now...
 				
 				if (JModelBuilder.getGoodTypeAllocated().contains(preference[i])){ //if the thing they want actually exists as a type in the 'pool' i.e. within 'goods' NOTE: THIS CURRENTLY ONLY COUNTS IF THEY EXIST, IT SHOULD ALSO PROBABLY SUM HOW MANY THERE ARE SO THAT IT CAN't EXCEED THIS NUMBER
 				endowment_remainder = endowment_remainder - goodPrice; //deduct price from remaining endowment
@@ -243,34 +177,13 @@ public class Consumer {
 								
 				i--;
 				}
-			}
-			
-			
-				
-			
+			}						
 		}
 		*/
-		//System.out.println(shoppingBasket);
-		
-		//System.out.println(endowment);  //think these 5 lines were just for error checking??
-		//int firstPref = preference[0];
-		//System.out.println(firstPref);
-		//double priceOfFirstPref = JModelBuilder.goodTypePrice.get(firstPref);
-		//System.out.println(priceOfFirstPref);
-		
+				
 		return maxUtility; //CURRENTLY THIS IS NOT UPDATED WITIN THIS FUNCTION - NEED TO DEAL WITH THIS
-	}
-	
-	/*private void changePrices(ArrayList<Good> goods){
-		for (int i = 0; i<JModelBuilder.goods.size(); i++){
-		JModelBuilder.goods.get(i).setPrice(newPrice);
-		System.out.println(0.0);
-		}
-		System.out.println(1.0);
-	}*/
+	}	
 		
-	//@ScheduledMethod(start = 1, interval = 1)
-	
 	public double getMaxUtility(){
 		maxUtility(JModelBuilder.goods, preference, goodsAllocated); //runs maxUtility
 		return maxUtility;
@@ -278,25 +191,9 @@ public class Consumer {
 	
 	public double getEndowment() {
 		
-		endowment(JModelBuilder.goods, goodsAllocated); //runs endowment
-		
-		//changePrices(JNEModelBuilder.goods);
-		
-		//System.out.println(total_endowment);
-		
+		endowment(JModelBuilder.goods, goodsAllocated); //runs endowment			
 		return totalEndowment;
-		//Good.setGoodPrices(JNEModelBuilder.goodTypePrice);
 		
-		
-		//for (int i=0; i<JNEModelBuilder.getGoodAmount(); i++){
-		//System.out.println(JNEModelBuilder.goods.get(0));
-			//JNEModelBuilder.goods.get(0).setPrice();
-		//	System.out.println(JNEModelBuilder.goods.get(i).getPrice());
-			//a.setPrice();
-		//}
-	  
-		//endowment(JNEModelBuilder.goods, goodsAllocated);
-		//System.out.println(total_endowment);
 	}
 	
 	public ArrayList<Integer> getShoppingBasket(){
