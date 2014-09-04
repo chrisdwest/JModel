@@ -124,6 +124,9 @@ public class Auctioneer {
 		double c = 0;
 		//double max = 0;
 		priceList.clear();
+		double sumPrice = 0;
+		
+		
 		
 		for (int i=0; i<demandTypeCount.length;i++){
 			
@@ -136,16 +139,22 @@ public class Auctioneer {
 			//c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
 			c = Math.min((0.1*b[i])+0.9,1.1);
 									
-			
-			
-			JModelBuilder.goodTypePrice.put(i, JModelBuilder.goodTypePrice.get(i)*c);
-			
+			JModelBuilder.goodTypePrice.put(i, (JModelBuilder.goodTypePrice.get(i)*c));	
 			/*not needed for new method
 			if(b[i]>max){
 				max = b[i];
 			}
 			*/
 		}
+		
+		for (int i=0; i<demandTypeCount.length; i++){
+			sumPrice = sumPrice + JModelBuilder.goodTypePrice.get(i);
+		}
+		
+		for (int i=0; i<demandTypeCount.length; i++){
+			JModelBuilder.goodTypePrice.put(i, (JModelBuilder.goodTypePrice.get(i)/sumPrice));
+		}
+		
 		/*OLD METHOD
 		for (int i=0; i<demandTypeCount.length;i++){
 			

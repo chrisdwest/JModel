@@ -27,10 +27,10 @@ public class JModelBuilder implements ContextBuilder<Object> {
 	 */
 	
 	public static int goodAmount = 2000; //on set-up there are x goods in total
-	public static int goodTypes = 3;  //on set-up there are x types of goods in total
-	public static int totalConsumers = 3; //total consumer agents to set up
-	public static int maxGoods = 30;  //the max amount of goods to allocate to a consumer
-	public static int minGoods = 30;  //the min amount of goods to allocate to a consumer
+	public static int goodTypes = 5;  //on set-up there are x types of goods in total
+	public static int totalConsumers = 10; //total consumer agents to set up
+	public static int maxGoods = 10;  //the max amount of goods to allocate to a consumer
+	public static int minGoods = 10;  //the min amount of goods to allocate to a consumer
 	public static HashMap<Integer, Double> goodLookUp = new HashMap<Integer, Double>();  //declares a hashmap to allow the details of a specific good ID to be looked up
 	public static HashMap<Integer, Double> goodTypePrice = new HashMap<Integer, Double>(); //declares a hashmap to allow the price of a good type to be looked up
 	public static ArrayList<Good> goods = new ArrayList<Good>(); //an arraylist storing 'Good' objects
@@ -72,9 +72,7 @@ public class JModelBuilder implements ContextBuilder<Object> {
 		}
 				
 		
-		int maxGoods = 30; //maxGoods multiplied by consumers should be <= goodAmount to ensure that all Consumers have at least 1 good. THINK THIS COMMENT NEEDS TO BE IMPLEMENTED
-		int minGoods = 30;
-		
+			
 		for (int i=0; i < totalConsumers; i++){ //NOTE: IT IS CURRENTLY POSSIBLE FOR CONSUMERS TO HAVE A PREFERENCE FOR GOODS WHICH ARE NOT IN THE 'goods' LIST (I.E. ARE NOT AVAILABLE).
 			SimUtilities.shuffle(goodTypeHolder,  RandomHelper.getUniform()); //creates a random (shuffled) list of 'goodtypes'
 			int[] pref = new int[goodTypes]; //instantiates an array to hold the list of preferences for good types for a consumer

@@ -5,7 +5,10 @@ package jModel;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 /**
@@ -36,7 +39,7 @@ public class Consumer {
 		int rnd1 = new Random().nextInt(firstName.length);
 		int rnd2 = new Random().nextInt(secondName.length);
 		this.consumerName = firstName[rnd1] + " " + secondName[rnd2];
-		
+		//System.out.println(goodsAllocated);
 	}
 	
 	public int getConsumerIDNumber(){
@@ -68,12 +71,14 @@ public class Consumer {
 				int tmpGoodID = JModelBuilder.goods.get(j).getID(); //gets the ID of the j'th item in the 'goods' arraylist
 				if (tmpGoodID == goodsAllocated.get(i)){ //if this ID matches the id of the ID of the good i that is allocated to the consumer
 					goodPrice = JModelBuilder.goods.get(j).getPrice(); //then get the price of this good
+					//System.out.println(goodPrice);
 					type.add(JModelBuilder.goods.get(j).getType());
 				}
 				
 			}
 			totalEndowment = totalEndowment + goodPrice; //add this price to the totalEndowment (after looping, totalEndowment will equal sum of prices of all goods allocated
-			
+			//System.out.println(type);
+			//System.out.println(totalEndowment);
 		}
 		
 		return totalEndowment;
@@ -118,7 +123,69 @@ public class Consumer {
 		//endowment = endowment(goods, goodsAllocated); //calls endowment function and sets 'endowment' to returned double
 		double endowment_remainder = totalEndowment;
 		
-		double minPrice=10000; //this isn't very satisfactory at the moment...
+		HashMap<Integer, Double> valueForMoney = new HashMap<Integer, Double>();
+		ArrayList<Integer> Prefs = new ArrayList<Integer>();
+		
+		
+		
+		for (int i=0; i<preference.length;i++){
+			Prefs.add(preference[i]);
+			double score = preference.length - i;
+			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
+			//System.out.println(goodPrice);
+			valueForMoney.put(preference[i], score/goodPrice);
+		}
+		
+		//System.out.println(valueForMoney);
+		ArrayList<Integer> valuePrefs = new ArrayList<Integer>();
+		
+		for(int i = 0; i<preference.length;i++){
+			double maxValueInMap =(Collections.max(valueForMoney.values()));
+			//System.out.println(maxValueInMap);
+			for(int j = 0; j<valueForMoney.size(); j++){
+				//System.out.println(valueForMoney.get(j));
+				
+				if(valueForMoney.get(j)==maxValueInMap){
+					valuePrefs.add(j);
+					valueForMoney.put(j,-1.0);
+				}	
+			}
+		}
+		//System.out.println("PrefList:");
+		//System.out.println(Prefs);
+		
+		//System.out.println("ValuePref:");
+		//System.out.println(valuePrefs);
+		
+		for (int i = 0; i<valuePrefs.size();i++){
+			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(valuePrefs.get(i));
+			//System.out.println("Price & Endowment:");
+			//System.out.println(goodPrice);
+			//System.out.println(endowment_remainder);
+			
+			double result = Math.floor(endowment_remainder/goodPrice);
+			//System.out.print("Wants:");
+			//System.out.println(result);
+			
+			if(result>supplyMap.get(preference[valuePrefs.get(i)])){
+				result = supplyMap.get(preference[valuePrefs.get(i)]);
+			}
+			//System.out.print("Can Have:");
+			//System.out.println(result);
+			double costOfPreference = result * goodPrice;
+			//System.out.println(costOfPreference);
+			endowment_remainder = endowment_remainder - costOfPreference;
+			//System.out.println(endowment_remainder);
+			for (int j=0; j<result;j++){
+			shoppingBasket.add(valuePrefs.get(i));
+			//System.out.println(valuePrefs.get(i));
+			}
+		}
+		
+		//System.out.print("Shopping:");
+		//System.out.println(shoppingBasket);
+		
+		/*double minPrice=10000; //this isn't very satisfactory at the moment...
 		for (int i=0; i<preference.length; i++){
 			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
 			if(minPrice>goodPrice){
@@ -126,7 +193,12 @@ public class Consumer {
 			}
 		}
 		
+				
 		while(endowment_remainder>=minPrice){
+			System.out.print("Endowment_remainder:");
+			System.out.println(endowment_remainder);
+			System.out.print("minPrice:");
+			System.out.println(minPrice);
 			double utilityMax = 0;
 			int utilityMaxRef = 0;
 			double utilityMaxAmount = 0;
@@ -136,10 +208,15 @@ public class Consumer {
 			double result = Math.floor(endowment_remainder/goodPrice);
 			if(result>supplyMap.get(preference[i])){
 				result = supplyMap.get(preference[i]);
-			}			
+			}
+			System.out.print("Result:");
+			System.out.println(result);
 			double score = preference.length - i;
+			System.out.print("score:");
+			System.out.println(score);
 			double utility = result * score;
-			
+			System.out.print("utility:");
+			System.out.println(utility);
 			if(utility>utilityMax){
 			utilityMaxRef = i;
 			utilityMaxAmount = result;
@@ -156,9 +233,10 @@ public class Consumer {
 		for(int i = 0; i<utilityMaxAmount;i++){
 			shoppingBasket.add(preference[utilityMaxRef]);
 		}
-		
+		System.out.print("Shopping:");
+		System.out.println(shoppingBasket);
 		}
-		//System.out.println(shoppingBasket);
+		//System.out.println(shoppingBasket);*/
 		/*for (int i = 0; i<preference.length; i++){ //in order of preference
 			
 			//goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
