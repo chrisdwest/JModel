@@ -12,6 +12,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import repast.simphony.engine.environment.RunEnvironment;
+import repast.simphony.random.RandomHelper;
+
 /**
  * @author Chris West
  *
@@ -20,25 +23,22 @@ public class Auctioneer {
 	private ArrayList<Integer> allDemand = new ArrayList<Integer>();
 	private ArrayList<Integer> allSupplyIDs = new ArrayList<Integer>();
 	private ArrayList<Integer> allSupplyTypes = new ArrayList<Integer>();
-	private int[] demandTypeCount = new int[JModelBuilder.goodTypes];
 	private HashMap<Integer, Integer> demandMap = new HashMap<Integer, Integer>();
-	private int[] supplyTypeCount = new int[JModelBuilder.goodTypes];
 	private HashMap<Integer, Integer> supplyMap = new HashMap<Integer, Integer>();
 	private HashMap<Integer, Double> priceList = new HashMap<Integer, Double>();
-	File file = new File("test.txt");
-	
+		
 	
 		
-	public Auctioneer(){ //initialisation stuff
-				
+	public Auctioneer(HashMap<Integer, Double> goodTypePrice){ //initialisation stuff
+		this.priceList.putAll(goodTypePrice);		
 	}
 	
-	public int getDemand1(){
-		return demandMap.get(1);
-	}	
-		
 	public void calculateDemand() {
-		
+		//System.out.println(JModelBuilder.goodTypes);
+		File file = new File("testGoodTypes_" + JModelBuilder.goodTypes + "_Consumers_" + JModelBuilder.totalConsumers + "_RunNo_" + RunEnvironment.getInstance().getParameters().getValueAsString("run_number") + ".txt");
+		File file2 = new File("rawGoodTypes_" + JModelBuilder.goodTypes + "_Consumers_" + JModelBuilder.totalConsumers + "_RunNo_" + RunEnvironment.getInstance().getParameters().getValueAsString("run_number") + ".txt");
+		int[] demandTypeCount = new int[(Integer) RunEnvironment.getInstance().getParameters().getValue("good_types")];
+		int[] supplyTypeCount = new int[(Integer) RunEnvironment.getInstance().getParameters().getValue("good_types")];
 		demandMap.clear();
 		supplyMap.clear();
 		allDemand.clear();
@@ -48,12 +48,16 @@ public class Auctioneer {
 		int totalDemand = 0;
 		
 		PrintWriter output = null;
+		PrintWriter output2 = null;
 		try {
 			output = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+			output2 = new PrintWriter(new BufferedWriter(new FileWriter(file2, true)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 		
 		output.print("Step: ");
 		output.println(Controller.getStep());
@@ -96,11 +100,15 @@ public class Auctioneer {
 		output.print(i);
 		output.print(",");
 		output.print(demandMap.get(i));
+		output2.print(demandMap.get(i));
 		output.print(",");
+		output2.print(",");
 		output.print(supplyMap.get(i));
+		output2.print(supplyMap.get(i));
 		output.print(",");
+		output2.print(",");
 		output.println(priceList.get(i));
-		
+		output2.println(priceList.get(i));
 				
 		}
 		
@@ -108,25 +116,26 @@ public class Auctioneer {
 			totalSupply = totalSupply + supplyMap.get(i);
 			totalDemand = totalDemand + demandMap.get(i);
 		}
-		System.out.println(totalSupply - totalDemand);
+		//System.out.println(totalSupply - totalDemand);
 		
 		output.println();
 		
 		output.close();
-		
+		output2.close();
 		
 	}
 	
 	public void setNewPrices(){
-		
+		int[] demandTypeCount = new int[(Integer) RunEnvironment.getInstance().getParameters().getValue("good_types")];
 		//double a=0;
 		double[] b = new double[demandTypeCount.length];
 		double c = 0;
 		//double max = 0;
-		priceList.clear();
+		//System.out.println(JModelBuilder.goodTypePrice);
+		//priceList.clear();
 		double sumPrice = 0;
 		
-		
+		//System.out.println(JModelBuilder.goodTypePrice);
 		
 		for (int i=0; i<demandTypeCount.length;i++){
 			
@@ -138,7 +147,8 @@ public class Auctioneer {
 			b[i] = ((double)demandMap.get(i) / (double)supplyMap.get(i));
 			//c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
 			c = Math.min((0.1*b[i])+0.9,1.1);
-									
+			//System.out.println(i);
+			//System.out.println(JModelBuilder.goodTypePrice);						
 			JModelBuilder.goodTypePrice.put(i, (JModelBuilder.goodTypePrice.get(i)*c));	
 			/*not needed for new method
 			if(b[i]>max){
@@ -185,6 +195,8 @@ public class Auctioneer {
 	
 	
 	public double getPrice(int type){
+		//System.out.println(type);
+		//System.out.println(priceList.get(type));
 		return priceList.get(type);
 	}
 	

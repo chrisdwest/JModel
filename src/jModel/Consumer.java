@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import repast.simphony.engine.environment.RunEnvironment;
+
 /**
  * @author Chris West
  *
@@ -25,7 +27,7 @@ public class Consumer {
 	private ArrayList<Integer> shoppingBasket = new ArrayList<Integer>(); //holds desired good details (good type numbers) to maximise utility
 	private ArrayList<Integer> allSupplyIDs = new ArrayList<Integer>();
 	private ArrayList<Integer> allSupplyTypes = new ArrayList<Integer>();
-	private int[] supplyTypeCount = new int[JModelBuilder.goodTypes];
+	private int[] supplyTypeCount = new int[(Integer) RunEnvironment.getInstance().getParameters().getValue("good_types")];
 	private HashMap<Integer, Integer> supplyMap = new HashMap<Integer, Integer>();
 	
 	private String[] firstName = {"Chris", "Simon", "Richard", "Elena", "Eric", "Aljona"};
@@ -53,6 +55,10 @@ public class Consumer {
 	public int getPreference(){
 		
 		return preference[9]; //for some reason i have set this to get only the last (10th) item in the preference list??
+	}
+	
+	public int[] getPreferenceList(){
+		return preference;
 	}
 	
 	public ArrayList<Integer> getGoodID(){
@@ -131,7 +137,9 @@ public class Consumer {
 		for (int i=0; i<preference.length;i++){
 			Prefs.add(preference[i]);
 			double score = preference.length - i;
-			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
+			goodPrice = JModelBuilder.goodTypePrice.get(preference[i]);
+					//JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
+			
 			//System.out.println(goodPrice);
 			valueForMoney.put(preference[i], score/goodPrice);
 		}
@@ -158,7 +166,7 @@ public class Consumer {
 		//System.out.println(valuePrefs);
 		
 		for (int i = 0; i<valuePrefs.size();i++){
-			goodPrice = JModelBuilder.auctioneer.get(0).getPrice(valuePrefs.get(i));
+			goodPrice = JModelBuilder.goodTypePrice.get(valuePrefs.get(i));
 			//System.out.println("Price & Endowment:");
 			//System.out.println(goodPrice);
 			//System.out.println(endowment_remainder);
