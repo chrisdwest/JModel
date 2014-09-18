@@ -121,6 +121,9 @@ public class Consumer {
 		
 		supplyMap.put(i, supplyTypeCount[i]); 
 		}
+		
+		//System.out.println(supplyMap);
+		
 	    double goodPrice = 0;
 		//double[] goodPrice = new double[preference.length];
 		
@@ -141,7 +144,12 @@ public class Consumer {
 					//JModelBuilder.auctioneer.get(0).getPrice(preference[i]);
 			
 			//System.out.println(goodPrice);
+			if (supplyMap.get(preference[i])!=0){
 			valueForMoney.put(preference[i], score/goodPrice);
+			}
+			else{
+				valueForMoney.put(preference[i], -1.0);
+			}
 		}
 		
 		//System.out.println(valueForMoney);
@@ -154,7 +162,9 @@ public class Consumer {
 				//System.out.println(valueForMoney.get(j));
 				
 				if(valueForMoney.get(j)==maxValueInMap){
+					if(valueForMoney.get(j)>=0.0){
 					valuePrefs.add(j);
+					}
 					valueForMoney.put(j,-1.0);
 				}	
 			}

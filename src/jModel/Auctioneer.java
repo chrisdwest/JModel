@@ -145,8 +145,14 @@ public class Auctioneer {
 			
 			//new method
 			b[i] = ((double)demandMap.get(i) / (double)supplyMap.get(i));
+			
+			if (Double.isNaN(b[i])){
+				c = 0.0;
+			}
+			else{
 			//c = (-0.5)*Math.exp(Math.log(0.5)*b[i])+1.25;
 			c = Math.min((0.1*b[i])+0.9,1.1);
+			}
 			//System.out.println(i);
 			//System.out.println(JModelBuilder.goodTypePrice);						
 			JModelBuilder.goodTypePrice.put(i, (JModelBuilder.goodTypePrice.get(i)*c));	

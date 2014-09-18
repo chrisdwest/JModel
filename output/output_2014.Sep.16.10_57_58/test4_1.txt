@@ -1,0 +1,140 @@
+Step: 21
+GoodType, Demand, Supply, Price
+0,189,43,0.3677830749119148
+1,0,57,0.6322169250880851
+2,0,0,null
+3,0,0,null
+
+Step: 22
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 23
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 24
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 25
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 26
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 27
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 28
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 29
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 30
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 31
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 32
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 33
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 34
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 35
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 36
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 37
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 38
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 39
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
+Step: 40
+GoodType, Demand, Supply, Price
+0,0,43,NaN
+1,0,57,NaN
+2,0,0,null
+3,0,0,null
+
