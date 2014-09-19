@@ -90,7 +90,7 @@ public class Consumer {
 		return totalEndowment;
 	}
 	
-	private double maxUtility(ArrayList<Good> goods, int[] preference, ArrayList<Integer> goodsAllocated){  //passes arraylist of Goods, the consumer preferences, and the allocated goods
+	private double maxUtilityVer1(ArrayList<Good> goods, int[] preference, ArrayList<Integer> goodsAllocated){  //passes arraylist of Goods, the consumer preferences, and the allocated goods
 			
 		supplyMap.clear();
 		allSupplyIDs.clear();
@@ -279,9 +279,100 @@ public class Consumer {
 				
 		return maxUtility; //CURRENTLY THIS IS NOT UPDATED WITIN THIS FUNCTION - NEED TO DEAL WITH THIS
 	}	
+
+	private double maxUtilityVer2(ArrayList<Good> goods, int[] preference, ArrayList<Integer> goodsAllocated){
+		supplyMap.clear();
+		allSupplyIDs.clear();
+		allSupplyTypes.clear();
+				
+		for (int i = 0; i<supplyTypeCount.length;i++){
+			supplyTypeCount[i] = 0;
+		}
 		
+		for(int i = 0; i<JModelBuilder.consumers.size(); i++){
+			allSupplyIDs.addAll(JModelBuilder.consumers.get(i).getGoodID());
+		}
+						
+		for (int i = 0; i<allSupplyIDs.size(); i++){
+			allSupplyTypes.add(JModelBuilder.goods.get(allSupplyIDs.get(i)).getType()); 
+		}
+		
+		for(int i = 0; i<supplyTypeCount.length; i++){
+				
+		for(int j = 0; j<allSupplyTypes.size(); j++){
+			if (allSupplyTypes.get(j) == i){
+				supplyTypeCount[i]++;
+			}
+		}
+		
+		supplyMap.put(i, supplyTypeCount[i]); 
+		}
+						
+	    double goodPrice = 0;
+				
+		shoppingBasket.clear();
+		
+		double endowment_remainder = totalEndowment;
+		
+		HashMap<Integer, Double> goodScore = new HashMap<Integer, Double>();
+		ArrayList<Integer> Prefs = new ArrayList<Integer>();
+		
+		
+		for (int i=0; i<preference.length;i++){
+			Prefs.add(preference[i]);
+			double score = preference.length - i;
+			goodPrice = JModelBuilder.goodTypePrice.get(preference[i]);
+					
+			if (supplyMap.get(preference[i])!=0){
+			goodScore.put(preference[i], score);
+			}
+			else{
+				goodScore.put(preference[i], -1.0);
+			}
+		}
+				
+		ArrayList<Integer> valuePrefs = new ArrayList<Integer>();
+		
+		for(int i = 0; i<preference.length;i++){
+			double maxValueInMap =(Collections.max(goodScore.values()));
+			
+			for(int j = 0; j<goodScore.size(); j++){
+								
+				if(goodScore.get(j)==maxValueInMap){
+					if(goodScore.get(j)>=0.0){
+					valuePrefs.add(j);
+					}
+					goodScore.put(j,-1.0);
+				}	
+			}
+		}
+				
+		for (int i = 0; i<valuePrefs.size();i++){
+			goodPrice = JModelBuilder.goodTypePrice.get(valuePrefs.get(i));
+			
+			
+			double result = Math.floor(endowment_remainder/goodPrice);
+			
+			
+			if(result>supplyMap.get(preference[valuePrefs.get(i)])){
+				result = supplyMap.get(preference[valuePrefs.get(i)]);
+			}
+			
+			double costOfPreference = result * goodPrice;
+			
+			endowment_remainder = endowment_remainder - costOfPreference;
+			
+			for (int j=0; j<result;j++){
+			shoppingBasket.add(valuePrefs.get(i));
+			
+			}
+		}
+					
+		return maxUtility;
+	}
+	
 	public double getMaxUtility(){
-		maxUtility(JModelBuilder.goods, preference, goodsAllocated); //runs maxUtility
+		maxUtilityVer2(JModelBuilder.goods, preference, goodsAllocated); //runs maxUtility (select correct version)
 		return maxUtility;
 	}
 	
