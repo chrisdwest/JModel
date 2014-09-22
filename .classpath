@@ -5,6 +5,6 @@
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_DSL_SUPPORT"/>
 	<classpathentry kind="con" path="REPAST_SIMPHONY_SUPPORT"/>
-	<classpathentry kind="lib" path="C:/Users/Chris/workspace2/JModel/lib/Jama.jar"/>
+	<classpathentry kind="lib" path="lib/Jama.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
