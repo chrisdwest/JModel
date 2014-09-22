@@ -273,6 +273,12 @@ public class Consumer {
 				}	
 			}
 		}
+		
+		//System.out.println("PrefList:");
+				//System.out.println(Prefs);
+				
+				//System.out.println("ValuePref:");
+				//System.out.println(valuePrefs);
 				
 		for (int i = 0; i<valuePrefs.size();i++){
 			goodPrice = JModelBuilder.goodTypePrice.get(valuePrefs.get(i));
@@ -295,7 +301,7 @@ public class Consumer {
 			
 			}
 		}
-					
+		//System.out.println(shoppingBasket);				
 		return maxUtility;
 	}
 	
@@ -429,7 +435,7 @@ public class Consumer {
 	}
 	
 	public double getMaxUtility(){
-		maxUtilityVer3(JModelBuilder.goods, preference, goodsAllocated); //runs maxUtility (select correct version)
+		maxUtilityVer2(JModelBuilder.goods, preference, goodsAllocated); //runs maxUtility (select correct version)
 		return maxUtility;
 	}
 	
